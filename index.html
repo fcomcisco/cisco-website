@@ -162,8 +162,8 @@
       padding: 0 16px;
     }
     .avatar {
-      width: 132px;
-      height: 132px;
+      width: 176px;
+      height: 176px;
       border-radius: 50%;
       overflow: hidden;
       background: var(--bg-elevated);
@@ -278,6 +278,7 @@
       font-size: 2.2rem;
     }
     .tech-item .icon-wrap svg { width: 36px; height: 36px; }
+    .tech-item .icon-wrap img { width: 36px; height: 36px; object-fit: contain; }
     .tech-item .icon-wrap .badge {
       width: 40px;
       height: 40px;
@@ -347,14 +348,14 @@
     }
     .timeline-logo {
       position: relative;
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
       overflow: hidden;
       flex-shrink: 0;
       background: #fff;
       border: 1px solid var(--border);
-      padding: 6px;
+      padding: 8px;
     }
     .timeline-logo img {
       width: 100%;
@@ -474,7 +475,7 @@
     @media (max-width: 640px) {
       section { padding: 56px 18px; }
       .diagram { min-width: 640px; }
-      .avatar { width: 104px; height: 104px; }
+      .avatar { width: 136px; height: 136px; }
       /* Keep centered heading text clear of the fixed controls box in the corner */
       .section-heading { padding: 0 58px; }
     }
@@ -635,7 +636,7 @@
 
         // Tools
         { name: "Linux", categoryKey: "tools", iconClass: "devicon-linux-plain" },
-        { name: "DBeaver", categoryKey: "tools", badge: "DB" },
+        { name: "DBeaver", categoryKey: "tools", img: "assets/logos/DBeaver.png", badge: "DB" },
       ],
 
       // Display order of tech-stack categories.
@@ -872,6 +873,9 @@
         return ICONS[tech.svg];
       }
       const label = tech.badge || tech.name.slice(0, 2).toUpperCase();
+      if (tech.img) {
+        return `<img src="${tech.img}" alt="${tech.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div class="badge" style="display:none;">${label}</div>`;
+      }
       return `<div class="badge">${label}</div>`;
     }
 
