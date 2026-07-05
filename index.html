@@ -69,12 +69,18 @@
       transform: translateY(0);
     }
 
-    /* ---------- Theme toggle ---------- */
-    .theme-toggle {
+    /* ---------- Top-right controls (theme + language) ---------- */
+    .controls {
       position: fixed;
       top: 20px;
       right: 20px;
       z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-toggle {
       width: 42px;
       height: 42px;
       border-radius: 50%;
@@ -91,15 +97,65 @@
     }
     .theme-toggle:hover { transform: scale(1.08); }
 
+    .lang-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px;
+      box-shadow: var(--shadow);
+    }
+    .lang-btn {
+      width: 34px;
+      height: 26px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .lang-btn:hover { color: var(--text); }
+    .lang-btn.active { background: var(--accent-soft); color: var(--accent); }
+
     /* ---------- Hero ---------- */
     .hero {
       min-height: 90vh;
+      position: relative;
+      overflow: hidden;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 14px;
+      padding: 0 16px;
+    }
+    .avatar {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-elevated);
+      border: 3px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .hero .eyebrow {
       color: var(--accent);
@@ -171,11 +227,13 @@
       margin-bottom: 18px;
     }
     .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 18px;
     }
     .tech-item {
+      flex: 0 0 96px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -327,26 +385,41 @@
     @media (max-width: 640px) {
       section { padding: 56px 18px; }
       .diagram { min-width: 640px; }
+      .avatar { width: 104px; height: 104px; }
+      /* Keep centered heading text clear of the fixed controls box in the corner */
+      .section-heading { padding: 0 58px; }
     }
   </style>
 </head>
 <body>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
+  <div class="controls">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="de">DE</button>
+    </div>
+  </div>
 
   <!-- ============ HERO ============ -->
   <section class="hero fade-in" id="hero">
-    <div class="eyebrow">Portfolio</div>
-    <h1 id="heroName"></h1>
-    <div class="title" id="heroTitle"></div>
-    <div class="links" id="heroLinks"></div>
+    <div class="hero-content">
+      <div class="avatar">
+        <img src="assets/profile.jpg" alt="Profile photo" id="avatarImg" onerror="this.closest('.avatar').style.display='none'" />
+      </div>
+      <div class="eyebrow" id="heroEyebrow"></div>
+      <h1 id="heroName"></h1>
+      <div class="title" id="heroTitle"></div>
+      <div class="links" id="heroLinks"></div>
+    </div>
   </section>
 
   <!-- ============ TECH STACK ============ -->
   <section id="stack">
     <div class="section-heading fade-in">
-      <h2>Tech Stack</h2>
-      <div class="sub">Tools I use to build and run data platforms</div>
+      <h2 id="stackHeading"></h2>
+      <div class="sub" id="stackSub"></div>
     </div>
     <div id="stackContainer"></div>
   </section>
@@ -354,7 +427,7 @@
   <!-- ============ WORK AREAS ============ -->
   <section id="work">
     <div class="section-heading fade-in">
-      <h2>Work Areas</h2>
+      <h2 id="workHeading"></h2>
     </div>
     <ul class="work-list fade-in" id="workList"></ul>
   </section>
@@ -362,12 +435,12 @@
   <!-- ============ ARCHITECTURE ============ -->
   <section id="architecture">
     <div class="section-heading fade-in">
-      <h2>Architecture</h2>
+      <h2 id="archHeading"></h2>
     </div>
     <div class="diagram-wrap fade-in">
       <div class="diagram" id="diagram"></div>
     </div>
-    <div class="diagram-caption fade-in">Deployed on AWS · CI/CD via Docker + Azure Pipelines</div>
+    <div class="diagram-caption fade-in" id="archCaption"></div>
   </section>
 
   <!-- ============ FOOTER ============ -->
@@ -376,78 +449,186 @@
     <div id="footerCopy"></div>
   </footer>
 
+  <!-- Three.js + Vanta.js (fog effect) for the hero background -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"></script>
+
   <script>
     /* =====================================================================
        CONFIG — edit everything here. This is the only section you need
-       to touch to update content (name, links, tech stack, work areas).
+       to touch to update content (name, links, tech stack). Translated
+       text (titles, headings, work areas) lives in TRANSLATIONS below.
        ===================================================================== */
     const CONFIG = {
       name: "Francisco Montecinos",
-      title: "Software Engineer",
+      avatar: "assets/profile.jpg",
 
       links: {
         linkedin: "https://www.linkedin.com/in/francisco-montecinos-6bab74246/",
         email: "mailto:francisco.montecinos1999@gmail.com",
       },
 
-      // Tech stack, grouped by category. Order of categories = display order.
+      // Tech stack, grouped by categoryKey (see TRANSLATIONS.<lang>.categories
+      // for the display label of each key). Order below = display order.
       // iconClass -> devicon class (see https://devicon.dev)
       // svg       -> inline SVG string, used when no devicon icon exists
       // badge     -> short text fallback, used when neither icon nor svg is set
       techStack: [
         // Languages
-        { name: "Python", category: "Languages", iconClass: "devicon-python-plain colored" },
-        { name: "SQL", category: "Languages", badge: "SQL" },
-        { name: "JavaScript", category: "Languages", iconClass: "devicon-javascript-plain colored" },
-        { name: "Java", category: "Languages", iconClass: "devicon-java-plain colored" },
+        { name: "Python", categoryKey: "languages", iconClass: "devicon-python-plain colored" },
+        { name: "SQL", categoryKey: "languages", badge: "SQL" },
+        { name: "JavaScript", categoryKey: "languages", iconClass: "devicon-javascript-plain colored" },
+        { name: "Java", categoryKey: "languages", iconClass: "devicon-java-plain colored" },
 
         // Backend / Frameworks
-        { name: "Flask", category: "Backend / Frameworks", iconClass: "devicon-flask-original" },
-        { name: "FastAPI", category: "Backend / Frameworks", iconClass: "devicon-fastapi-plain colored" },
-        { name: "Airflow", category: "Backend / Frameworks", iconClass: "devicon-apacheairflow-plain colored" },
-        { name: "React", category: "Backend / Frameworks", iconClass: "devicon-react-original colored" },
+        { name: "Flask", categoryKey: "backend", iconClass: "devicon-flask-original" },
+        { name: "FastAPI", categoryKey: "backend", iconClass: "devicon-fastapi-plain colored" },
+        { name: "Airflow", categoryKey: "backend", iconClass: "devicon-apacheairflow-plain colored" },
+        { name: "React", categoryKey: "backend", iconClass: "devicon-react-original colored" },
 
         // Databases
-        { name: "Snowflake", category: "Databases", svg: "snowflake" },
-        { name: "SQL Server", category: "Databases", iconClass: "devicon-microsoftsqlserver-plain colored" },
-        { name: "MySQL", category: "Databases", iconClass: "devicon-mysql-plain colored" },
+        { name: "Snowflake", categoryKey: "databases", svg: "snowflake" },
+        { name: "SQL Server", categoryKey: "databases", iconClass: "devicon-microsoftsqlserver-plain colored" },
+        { name: "MySQL", categoryKey: "databases", iconClass: "devicon-mysql-plain colored" },
 
         // Cloud (AWS)
-        { name: "MWAA", category: "Cloud (AWS)", svg: "aws" },
-        { name: "ECS", category: "Cloud (AWS)", svg: "aws" },
-        { name: "ECR", category: "Cloud (AWS)", svg: "aws" },
-        { name: "CloudWatch", category: "Cloud (AWS)", svg: "aws" },
-        { name: "RDS", category: "Cloud (AWS)", svg: "aws" },
+        { name: "MWAA", categoryKey: "cloud", svg: "aws" },
+        { name: "ECS", categoryKey: "cloud", svg: "aws" },
+        { name: "ECR", categoryKey: "cloud", svg: "aws" },
+        { name: "CloudWatch", categoryKey: "cloud", svg: "aws" },
+        { name: "RDS", categoryKey: "cloud", svg: "aws" },
 
         // CI/CD & DevOps
-        { name: "Azure DevOps", category: "CI/CD & DevOps", iconClass: "devicon-azuredevops-plain colored" },
-        { name: "Docker", category: "CI/CD & DevOps", iconClass: "devicon-docker-plain colored" },
-        { name: "Git", category: "CI/CD & DevOps", iconClass: "devicon-git-plain colored" },
-        { name: "Bitbucket", category: "CI/CD & DevOps", iconClass: "devicon-bitbucket-original colored" },
+        { name: "Azure DevOps", categoryKey: "cicd", iconClass: "devicon-azuredevops-plain colored" },
+        { name: "Docker", categoryKey: "cicd", iconClass: "devicon-docker-plain colored" },
+        { name: "Git", categoryKey: "cicd", iconClass: "devicon-git-plain colored" },
+        { name: "Bitbucket", categoryKey: "cicd", iconClass: "devicon-bitbucket-original colored" },
 
         // Tools
-        { name: "Linux", category: "Tools", iconClass: "devicon-linux-plain" },
-        { name: "DBeaver", category: "Tools", badge: "DB" },
+        { name: "Linux", categoryKey: "tools", iconClass: "devicon-linux-plain" },
+        { name: "DBeaver", categoryKey: "tools", badge: "DB" },
       ],
 
-      workAreas: [
-        "Production application maintenance & debugging",
-        "Data pipeline design & support (Airflow)",
-        "CI/CD deployments (Azure Pipelines)",
-        "System integrations with Python",
-        "Monitoring, observability & vulnerability remediation",
-        "AWS cloud troubleshooting",
-      ],
+      // Display order of tech-stack categories.
+      categoryOrder: ["languages", "backend", "databases", "cloud", "cicd", "tools"],
 
-      // Architecture flow, left to right.
-      architecture: [
-        "Data sources",
-        "Airflow",
-        "Python services",
-        "Snowflake / RDS",
-        "React frontend",
-      ],
+      // Architecture flow, left to right. Keys map to TRANSLATIONS.<lang>.archLabels
+      // and to ARCH_ICON_MAP below.
+      architecture: ["source", "airflow", "service", "db", "frontend"],
     };
+
+    /* =====================================================================
+       TRANSLATIONS — all user-facing text, per language. Add a language by
+       adding a new key here (en/es/de supported out of the box) plus a
+       button in the #langToggle markup.
+       ===================================================================== */
+    const TRANSLATIONS = {
+      en: {
+        eyebrow: "Portfolio",
+        title: "Software Engineer",
+        linkedinLabel: "LinkedIn",
+        emailLabel: "Email",
+        stackHeading: "Tech Stack",
+        stackSub: "Tools I use to build and run data platforms",
+        workHeading: "Work Areas",
+        workAreas: [
+          "Production application maintenance & debugging",
+          "Data pipeline design & support (Airflow)",
+          "CI/CD deployments (Azure Pipelines)",
+          "System integrations with Python",
+          "Monitoring, observability & vulnerability remediation",
+          "AWS cloud troubleshooting",
+        ],
+        archHeading: "Architecture",
+        archCaption: "Deployed on AWS · CI/CD via Docker + Azure Pipelines",
+        archLabels: {
+          source: "Data sources",
+          airflow: "Airflow",
+          service: "Python services",
+          db: "Snowflake / RDS",
+          frontend: "React frontend",
+        },
+        categories: {
+          languages: "Languages",
+          backend: "Backend / Frameworks",
+          databases: "Databases",
+          cloud: "Cloud (AWS)",
+          cicd: "CI/CD & DevOps",
+          tools: "Tools",
+        },
+      },
+      es: {
+        eyebrow: "Portafolio",
+        title: "Ingeniero de Software",
+        linkedinLabel: "LinkedIn",
+        emailLabel: "Correo",
+        stackHeading: "Tecnologías",
+        stackSub: "Herramientas que uso para construir y operar plataformas de datos",
+        workHeading: "Áreas de trabajo",
+        workAreas: [
+          "Mantenimiento y depuración de aplicaciones en producción",
+          "Diseño y soporte de pipelines de datos (Airflow)",
+          "Despliegues CI/CD (Azure Pipelines)",
+          "Integraciones de sistemas con Python",
+          "Monitoreo, observabilidad y remediación de vulnerabilidades",
+          "Resolución de problemas en la nube de AWS",
+        ],
+        archHeading: "Arquitectura",
+        archCaption: "Desplegado en AWS · CI/CD con Docker + Azure Pipelines",
+        archLabels: {
+          source: "Fuentes de datos",
+          airflow: "Airflow",
+          service: "Servicios Python",
+          db: "Snowflake / RDS",
+          frontend: "Frontend React",
+        },
+        categories: {
+          languages: "Lenguajes",
+          backend: "Backend / Frameworks",
+          databases: "Bases de datos",
+          cloud: "Nube (AWS)",
+          cicd: "CI/CD y DevOps",
+          tools: "Herramientas",
+        },
+      },
+      de: {
+        eyebrow: "Portfolio",
+        title: "Softwareingenieur",
+        linkedinLabel: "LinkedIn",
+        emailLabel: "E-Mail",
+        stackHeading: "Tech-Stack",
+        stackSub: "Werkzeuge, mit denen ich Datenplattformen baue und betreibe",
+        workHeading: "Tätigkeitsbereiche",
+        workAreas: [
+          "Wartung und Fehlerbehebung von Produktionsanwendungen",
+          "Design und Support von Datenpipelines (Airflow)",
+          "CI/CD-Deployments (Azure Pipelines)",
+          "Systemintegrationen mit Python",
+          "Monitoring, Observability und Behebung von Schwachstellen",
+          "Fehlerbehebung in der AWS-Cloud",
+        ],
+        archHeading: "Architektur",
+        archCaption: "Bereitgestellt auf AWS · CI/CD mit Docker + Azure Pipelines",
+        archLabels: {
+          source: "Datenquellen",
+          airflow: "Airflow",
+          service: "Python-Dienste",
+          db: "Snowflake / RDS",
+          frontend: "React-Frontend",
+        },
+        categories: {
+          languages: "Sprachen",
+          backend: "Backend / Frameworks",
+          databases: "Datenbanken",
+          cloud: "Cloud (AWS)",
+          cicd: "CI/CD & DevOps",
+          tools: "Werkzeuge",
+        },
+      },
+    };
+
+    let currentLang = localStorage.getItem("lang") || "en";
+    if (!TRANSLATIONS[currentLang]) currentLang = "en";
 
     /* =====================================================================
        ICONS — small inline SVG set used for links, footer, diagram nodes,
@@ -467,25 +648,28 @@
       arrow: `<svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 6h20M15 1l5 5-5 5"/></svg>`,
     };
 
-    // Maps architecture node labels to an icon key in ICONS.
+    // Maps architecture node keys (CONFIG.architecture) to an icon key in ICONS.
     const ARCH_ICON_MAP = {
-      "Data sources": "source",
-      "Airflow": "airflow",
-      "Python services": "service",
-      "Snowflake / RDS": "genericDb",
-      "React frontend": "frontend",
+      source: "source",
+      airflow: "airflow",
+      service: "service",
+      db: "genericDb",
+      frontend: "frontend",
     };
 
     /* =====================================================================
        RENDER
        ===================================================================== */
     function renderHero() {
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("heroEyebrow").textContent = t.eyebrow;
       document.getElementById("heroName").textContent = CONFIG.name;
-      document.getElementById("heroTitle").textContent = CONFIG.title;
+      document.getElementById("heroTitle").textContent = t.title;
+      document.getElementById("avatarImg").src = CONFIG.avatar;
 
       const linksHtml = `
-        <a href="${CONFIG.links.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin} LinkedIn</a>
-        <a href="${CONFIG.links.email}">${ICONS.email} Email</a>
+        <a href="${CONFIG.links.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin} ${t.linkedinLabel}</a>
+        <a href="${CONFIG.links.email}">${ICONS.email} ${t.emailLabel}</a>
       `;
       document.getElementById("heroLinks").innerHTML = linksHtml;
       document.getElementById("footerLinks").innerHTML = linksHtml;
@@ -507,27 +691,27 @@
     }
 
     function renderStack() {
-      const categories = [];
-      CONFIG.techStack.forEach((t) => {
-        if (!categories.includes(t.category)) categories.push(t.category);
-      });
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("stackHeading").textContent = t.stackHeading;
+      document.getElementById("stackSub").textContent = t.stackSub;
 
       const container = document.getElementById("stackContainer");
-      container.innerHTML = categories
-        .map((cat) => {
-          const items = CONFIG.techStack.filter((t) => t.category === cat);
+      container.innerHTML = CONFIG.categoryOrder
+        .map((key) => {
+          const items = CONFIG.techStack.filter((i) => i.categoryKey === key);
+          if (!items.length) return "";
           const itemsHtml = items
             .map(
-              (t) => `
+              (i) => `
               <div class="tech-item">
-                <div class="icon-wrap">${techIconMarkup(t)}</div>
-                <div class="name">${t.name}</div>
+                <div class="icon-wrap">${techIconMarkup(i)}</div>
+                <div class="name">${i.name}</div>
               </div>`
             )
             .join("");
           return `
             <div class="stack-category fade-in">
-              <div class="cat-label">${cat}</div>
+              <div class="cat-label">${t.categories[key]}</div>
               <div class="stack-grid">${itemsHtml}</div>
             </div>`;
         })
@@ -535,19 +719,24 @@
     }
 
     function renderWorkAreas() {
-      document.getElementById("workList").innerHTML = CONFIG.workAreas
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("workHeading").textContent = t.workHeading;
+      document.getElementById("workList").innerHTML = t.workAreas
         .map((item) => `<li><span class="dot"></span>${item}</li>`)
         .join("");
     }
 
     function renderArchitecture() {
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("archHeading").textContent = t.archHeading;
+      document.getElementById("archCaption").textContent = t.archCaption;
+
       const nodes = CONFIG.architecture
-        .map((label, i) => {
-          const iconKey = ARCH_ICON_MAP[label] || "service";
+        .map((key, i) => {
           const node = `
             <div class="diagram-node">
-              <div class="node-icon">${ICONS[iconKey]}</div>
-              <span>${label}</span>
+              <div class="node-icon">${ICONS[ARCH_ICON_MAP[key]]}</div>
+              <span>${t.archLabels[key]}</span>
             </div>`;
           const arrow =
             i < CONFIG.architecture.length - 1
@@ -557,6 +746,14 @@
         })
         .join("");
       document.getElementById("diagram").innerHTML = nodes;
+    }
+
+    // Re-renders all translatable sections for the current language.
+    function renderAll() {
+      renderHero();
+      renderStack();
+      renderWorkAreas();
+      renderArchitecture();
     }
 
     /* =====================================================================
@@ -581,6 +778,56 @@
     }
 
     /* =====================================================================
+       LANGUAGE TOGGLE (persisted via localStorage)
+       ===================================================================== */
+    function initLang() {
+      document.documentElement.setAttribute("lang", currentLang);
+      updateLangButtons();
+
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          currentLang = btn.dataset.lang;
+          localStorage.setItem("lang", currentLang);
+          document.documentElement.setAttribute("lang", currentLang);
+          updateLangButtons();
+          renderAll();
+          // Re-rendered sections lose their scroll-triggered "visible" class;
+          // since this is a language switch (not a first paint), reveal them
+          // immediately instead of waiting for another scroll.
+          document.querySelectorAll(".fade-in").forEach((el) => el.classList.add("visible"));
+        });
+      });
+    }
+
+    function updateLangButtons() {
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+    }
+
+    /* =====================================================================
+       VANTA FOG BACKGROUND (hero section)
+       ===================================================================== */
+    function initVanta() {
+      if (!window.VANTA || !window.VANTA.FOG) return;
+      window.VANTA.FOG({
+        el: "#hero",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        highlightColor: 0x4f7fe0,
+        midtoneColor: 0x1c2b4a,
+        lowlightColor: 0x0b0e14,
+        baseColor: 0x0b0e14,
+        blurFactor: 0.6,
+        speed: 1.4,
+        zoom: 1.2,
+      });
+    }
+
+    /* =====================================================================
        FADE-IN ON SCROLL
        ===================================================================== */
     function initScrollFade() {
@@ -602,11 +849,10 @@
     /* =====================================================================
        INIT
        ===================================================================== */
-    renderHero();
-    renderStack();
-    renderWorkAreas();
-    renderArchitecture();
+    renderAll();
     initTheme();
+    initLang();
+    initVanta();
     initScrollFade();
   </script>
 </body>
