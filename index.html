@@ -310,6 +310,73 @@
       flex-shrink: 0;
     }
 
+    /* ---------- Experience / Education timeline ---------- */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-elevated);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .timeline-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .timeline-logo {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--accent-soft);
+    }
+    .timeline-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .timeline-logo .logo-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      text-align: center;
+    }
+    .timeline-info { text-align: left; }
+    .timeline-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .timeline-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .timeline-date {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
     /* ---------- Architecture diagram ---------- */
     .diagram-wrap {
       overflow-x: auto;
@@ -433,6 +500,22 @@
     <div id="stackContainer"></div>
   </section>
 
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <div class="section-heading fade-in">
+      <h2 id="experienceHeading"></h2>
+    </div>
+    <div class="timeline" id="experienceList"></div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education">
+    <div class="section-heading fade-in">
+      <h2 id="educationHeading"></h2>
+    </div>
+    <div class="timeline" id="educationList"></div>
+  </section>
+
   <!-- ============ WORK AREAS ============ -->
   <section id="work">
     <div class="section-heading fade-in">
@@ -476,6 +559,19 @@
         linkedin: "https://www.linkedin.com/in/francisco-montecinos-6bab74246/",
         email: "mailto:francisco.montecinos1999@gmail.com",
       },
+
+      // Work history. Role/client/date text lives in TRANSLATIONS.<lang>.experienceEntries
+      // (same order as this array). logo -> image file; falls back to `badge` text
+      // if the file is missing.
+      experience: [
+        { company: "Infosys", logo: "assets/logos/infosys.png", badge: "IN" },
+      ],
+
+      // Education. Degree/school/location text lives in TRANSLATIONS.<lang>.educationEntries
+      // (same order as this array).
+      education: [
+        { logo: "assets/logos/unab.png", badge: "UNAB" },
+      ],
 
       // Tech stack, grouped by categoryKey (see TRANSLATIONS.<lang>.categories
       // for the display label of each key). Order below = display order.
@@ -539,6 +635,22 @@
         emailLabel: "Email",
         stackHeading: "Tech Stack",
         stackSub: "Tools I use to build and run data platforms",
+        experienceHeading: "Experience",
+        experienceEntries: [
+          {
+            role: "Data Engineer",
+            client: "Mining industry client (confidential)",
+            dateRange: "Aug 2025 – Present",
+          },
+        ],
+        educationHeading: "Education",
+        educationEntries: [
+          {
+            degree: "Engineering Degree in Computer Science and Informatics",
+            school: "Universidad Andrés Bello",
+            location: "Viña del Mar, Chile",
+          },
+        ],
         workHeading: "Work Areas",
         workAreas: [
           "Production application maintenance & debugging",
@@ -573,6 +685,22 @@
         emailLabel: "Correo",
         stackHeading: "Tecnologías",
         stackSub: "Herramientas que uso para construir y operar plataformas de datos",
+        experienceHeading: "Experiencia",
+        experienceEntries: [
+          {
+            role: "Ingeniero de Datos",
+            client: "Cliente del sector minero (confidencial)",
+            dateRange: "Ago 2025 – Presente",
+          },
+        ],
+        educationHeading: "Educación",
+        educationEntries: [
+          {
+            degree: "Ingeniería en Computación e Informática",
+            school: "Universidad Andrés Bello",
+            location: "Viña del Mar, Chile",
+          },
+        ],
         workHeading: "Áreas de trabajo",
         workAreas: [
           "Mantenimiento y depuración de aplicaciones en producción",
@@ -607,6 +735,22 @@
         emailLabel: "E-Mail",
         stackHeading: "Tech-Stack",
         stackSub: "Werkzeuge, mit denen ich Datenplattformen baue und betreibe",
+        experienceHeading: "Berufserfahrung",
+        experienceEntries: [
+          {
+            role: "Data Engineer",
+            client: "Kunde aus dem Bergbausektor (vertraulich)",
+            dateRange: "Aug. 2025 – Heute",
+          },
+        ],
+        educationHeading: "Ausbildung",
+        educationEntries: [
+          {
+            degree: "Ingenieurwesen in Informatik",
+            school: "Universidad Andrés Bello",
+            location: "Viña del Mar, Chile",
+          },
+        ],
         workHeading: "Tätigkeitsbereiche",
         workAreas: [
           "Wartung und Fehlerbehebung von Produktionsanwendungen",
@@ -735,6 +879,56 @@
         .join("");
     }
 
+    // Shared markup for one experience/education row: a logo (with a text
+    // badge fallback if the image file is missing) plus title/sub/date lines.
+    function timelineItemMarkup(logo, badge, title, sub, date) {
+      return `
+        <div class="timeline-item fade-in">
+          <div class="timeline-logo">
+            <img src="${logo}" alt="${title} logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="logo-fallback">${badge}</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-title">${title}</div>
+            <div class="timeline-sub">${sub}</div>
+            ${date ? `<div class="timeline-date">${date}</div>` : ""}
+          </div>
+        </div>`;
+    }
+
+    function renderExperience() {
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("experienceHeading").textContent = t.experienceHeading;
+      document.getElementById("experienceList").innerHTML = CONFIG.experience
+        .map((exp, i) => {
+          const entry = t.experienceEntries[i];
+          return timelineItemMarkup(
+            exp.logo,
+            exp.badge,
+            `${entry.role} · ${exp.company}`,
+            entry.client,
+            entry.dateRange
+          );
+        })
+        .join("");
+    }
+
+    function renderEducation() {
+      const t = TRANSLATIONS[currentLang];
+      document.getElementById("educationHeading").textContent = t.educationHeading;
+      document.getElementById("educationList").innerHTML = CONFIG.education
+        .map((edu, i) => {
+          const entry = t.educationEntries[i];
+          return timelineItemMarkup(
+            edu.logo,
+            edu.badge,
+            entry.degree,
+            `${entry.school} · ${entry.location}`
+          );
+        })
+        .join("");
+    }
+
     function renderWorkAreas() {
       const t = TRANSLATIONS[currentLang];
       document.getElementById("workHeading").textContent = t.workHeading;
@@ -769,6 +963,8 @@
     function renderAll() {
       renderHero();
       renderStack();
+      renderExperience();
+      renderEducation();
       renderWorkAreas();
       renderArchitecture();
     }
