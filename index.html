@@ -48,6 +48,16 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
+    /* Fixed, full-page fog canvas mount. Sits behind all content (negative
+       z-index) but above the plain body background, which acts as a fallback
+       color while the Vanta/Three.js scripts load. */
+    #vanta-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
     section {
       max-width: var(--max-width);
       margin: 0 auto;
@@ -126,16 +136,12 @@
     /* ---------- Hero ---------- */
     .hero {
       min-height: 90vh;
-      position: relative;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
     }
     .hero-content {
-      position: relative;
-      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -392,6 +398,8 @@
   </style>
 </head>
 <body>
+
+  <div id="vanta-bg"></div>
 
   <div class="controls">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
@@ -763,6 +771,7 @@
       const saved = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", saved);
       updateToggleIcon(saved);
+      initVanta(saved);
 
       document.getElementById("themeToggle").addEventListener("click", () => {
         const current = document.documentElement.getAttribute("data-theme");
@@ -770,11 +779,49 @@
         document.documentElement.setAttribute("data-theme", next);
         localStorage.setItem("theme", next);
         updateToggleIcon(next);
+        initVanta(next);
       });
     }
 
     function updateToggleIcon(theme) {
       document.getElementById("themeToggle").textContent = theme === "dark" ? "🌙" : "☀️";
+    }
+
+    /* =====================================================================
+       VANTA FOG BACKGROUND (fixed, full-page; recolored per theme)
+       ===================================================================== */
+    const VANTA_PALETTES = {
+      dark: {
+        highlightColor: 0x4f7fe0,
+        midtoneColor: 0x1c2b4a,
+        lowlightColor: 0x0b0e14,
+        baseColor: 0x0b0e14,
+      },
+      light: {
+        highlightColor: 0x2f6fed,
+        midtoneColor: 0x8fb8ff,
+        lowlightColor: 0xd8e6ff,
+        baseColor: 0xf7f8fa,
+      },
+    };
+
+    let vantaEffect = null;
+
+    function initVanta(theme) {
+      if (!window.VANTA || !window.VANTA.FOG) return;
+      if (vantaEffect) vantaEffect.destroy();
+      vantaEffect = window.VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        blurFactor: 0.6,
+        speed: 1.4,
+        zoom: 1.2,
+        ...VANTA_PALETTES[theme],
+      });
     }
 
     /* =====================================================================
@@ -806,28 +853,6 @@
     }
 
     /* =====================================================================
-       VANTA FOG BACKGROUND (hero section)
-       ===================================================================== */
-    function initVanta() {
-      if (!window.VANTA || !window.VANTA.FOG) return;
-      window.VANTA.FOG({
-        el: "#hero",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        highlightColor: 0x4f7fe0,
-        midtoneColor: 0x1c2b4a,
-        lowlightColor: 0x0b0e14,
-        baseColor: 0x0b0e14,
-        blurFactor: 0.6,
-        speed: 1.4,
-        zoom: 1.2,
-      });
-    }
-
-    /* =====================================================================
        FADE-IN ON SCROLL
        ===================================================================== */
     function initScrollFade() {
@@ -852,7 +877,6 @@
     renderAll();
     initTheme();
     initLang();
-    initVanta();
     initScrollFade();
   </script>
 </body>
