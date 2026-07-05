@@ -33,7 +33,7 @@ const CONFIG = {
   techStack: [
     // Languages
     { name: "Python", categoryKey: "languages", iconClass: "devicon-python-plain colored" },
-    { name: "SQL", categoryKey: "languages", badge: "SQL" },
+    { name: "SQL", categoryKey: "languages", img: "assets/logos/SQL.png", badge: "SQL" },
     { name: "JavaScript", categoryKey: "languages", iconClass: "devicon-javascript-plain colored" },
     { name: "Java", categoryKey: "languages", iconClass: "devicon-java-plain colored" },
 
