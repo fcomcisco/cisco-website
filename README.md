@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Site
 
-## Getting Started
+Personal portfolio for Francisco Montecinos — Data Engineer / Platform Engineer. Plain HTML/CSS/JS, no build step, no framework.
 
-First, run the development server:
+**Live:** https://fcomcisco.github.io/cisco-website/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Structure
+
+```
+index.html   Page structure/markup
+styles.css   All styling (dark/light theme via CSS variables)
+script.js    Content config, translations, and rendering logic
+assets/      Profile photo + company/university logos
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Devicon (icons) and Three.js/Vanta (fog background) are loaded from CDN in `index.html`; everything else is self-contained.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Almost everything on the site — name, links, tech stack, work experience, education — is data-driven from two objects at the top of `script.js`:
 
-## Learn More
+- `CONFIG` — name, links, tech stack list, experience/education entries, logo paths
+- `TRANSLATIONS` — all displayed text (EN/ES/DE), keyed by language
 
-To learn more about Next.js, take a look at the following resources:
+To add a language, add a new key to `TRANSLATIONS` and a matching button in the `#langToggle` markup in `index.html`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To add a logo/photo, drop the image file into `assets/` (or `assets/logos/`) and reference its path in `CONFIG`. Missing image files fall back gracefully to a text badge/initials.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Running locally
 
-## Deploy on Vercel
+Any static file server works, e.g.:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+python -m http.server 5500
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Then open `http://localhost:5500`.
+
+## Deployment
+
+- `main` is the live branch — pushing to it triggers the GitHub Actions workflow (`.github/workflows/static-pages.yml`), which deploys straight to GitHub Pages with no build step.
+- `QA` is used as a staging branch for work in progress before merging to `main`.
