@@ -117,12 +117,6 @@
       color: var(--text-muted);
       font-weight: 500;
     }
-    .hero .tagline {
-      max-width: 520px;
-      color: var(--text-muted);
-      font-size: 1rem;
-      margin-top: 4px;
-    }
     .hero .links {
       display: flex;
       gap: 14px;
@@ -345,7 +339,6 @@
     <div class="eyebrow">Portfolio</div>
     <h1 id="heroName"></h1>
     <div class="title" id="heroTitle"></div>
-    <p class="tagline" id="heroTagline"></p>
     <div class="links" id="heroLinks"></div>
   </section>
 
@@ -389,13 +382,11 @@
        to touch to update content (name, links, tech stack, work areas).
        ===================================================================== */
     const CONFIG = {
-      name: "Your Name",
-      title: "Data Engineer / Platform Engineer",
-      tagline: "Building reliable data pipelines and cloud-native platforms.",
+      name: "Francisco Montecinos",
+      title: "Software Engineer",
 
       links: {
-        github: "https://github.com/your-username",
-        linkedin: "https://www.linkedin.com/in/your-profile",
+        linkedin: "https://www.linkedin.com/in/francisco-montecinos-6bab74246/",
         email: "mailto:your.email@example.com",
       },
 
@@ -491,10 +482,8 @@
     function renderHero() {
       document.getElementById("heroName").textContent = CONFIG.name;
       document.getElementById("heroTitle").textContent = CONFIG.title;
-      document.getElementById("heroTagline").textContent = CONFIG.tagline;
 
       const linksHtml = `
-        <a href="${CONFIG.links.github}" target="_blank" rel="noopener">${ICONS.github} GitHub</a>
         <a href="${CONFIG.links.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin} LinkedIn</a>
         <a href="${CONFIG.links.email}">${ICONS.email} Email</a>
       `;
