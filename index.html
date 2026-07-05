@@ -297,33 +297,6 @@
       text-align: center;
     }
 
-    /* ---------- Work areas ---------- */
-    .work-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-    }
-    .work-list li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-elevated);
-      font-size: 0.92rem;
-    }
-    .work-list li .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
     /* ---------- Experience / Education timeline ---------- */
     .timeline {
       display: flex;
@@ -332,9 +305,10 @@
       max-width: 640px;
       margin: 0 auto;
     }
+    #experienceList { max-width: 760px; }
     .timeline-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 18px;
       padding: 18px 22px;
       border: 1px solid var(--border);
@@ -391,6 +365,35 @@
       color: var(--accent);
       font-weight: 600;
       margin-top: 4px;
+    }
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+    .timeline-highlights {
+      list-style: none;
+      margin: 10px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .timeline-highlights li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .timeline-highlights li .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 6px;
     }
 
     /* ---------- Architecture diagram ---------- */
@@ -541,14 +544,6 @@
     <div class="timeline" id="educationList"></div>
   </section>
 
-  <!-- ============ WORK AREAS ============ -->
-  <section id="work">
-    <div class="section-heading fade-in">
-      <h2 id="workHeading"></h2>
-    </div>
-    <ul class="work-list fade-in" id="workList"></ul>
-  </section>
-
   <!-- ============ ARCHITECTURE ============ -->
   <section id="architecture">
     <div class="section-heading fade-in">
@@ -663,9 +658,20 @@
         experienceHeading: "Experience",
         experienceEntries: [
           {
-            role: "Data Engineer",
-            client: "Mining industry client (confidential)",
+            role: "System Engineer — Data & Platform Engineering",
+            client: "Mining Sector Client (confidential)",
             dateRange: "Aug 2025 – Present",
+            description:
+              "Data and Platform Engineer responsible for the maintenance, monitoring, and reliability of production applications for a global mining sector client. My work involves supporting and debugging data pipelines, resolving production incidents, deploying CI/CD solutions, and integrating systems, all within a corporate environment with strict security policies and approved tools.",
+            highlights: [
+              "Maintenance, debugging, and monitoring of production applications, ensuring their availability and reliability.",
+              "Support and orchestration of data pipelines with Airflow (development and maintenance of DAGs).",
+              "Resolving production incidents and troubleshooting in cloud environments (AWS).",
+              "CI/CD deployments using Azure Pipelines and Docker containers.",
+              "System integrations with Python (Flask / FastAPI).",
+              "Remediation of security vulnerabilities in repositories and services.",
+              "Work with SQL databases (Snowflake, SQL Server, MySQL) for support and analysis queries.",
+            ],
           },
         ],
         educationHeading: "Education",
@@ -675,15 +681,6 @@
             school: "Universidad Andrés Bello",
             location: "Viña del Mar, Chile",
           },
-        ],
-        workHeading: "Work Areas",
-        workAreas: [
-          "Production application maintenance & debugging",
-          "Data pipeline design & support (Airflow)",
-          "CI/CD deployments (Azure Pipelines)",
-          "System integrations with Python",
-          "Monitoring, observability & vulnerability remediation",
-          "AWS cloud troubleshooting",
         ],
         archHeading: "Architecture",
         archCaption: "Deployed on AWS · CI/CD via Docker + Azure Pipelines",
@@ -713,9 +710,20 @@
         experienceHeading: "Experiencia",
         experienceEntries: [
           {
-            role: "Ingeniero de Datos",
-            client: "Cliente del sector minero (confidencial)",
+            role: "Ingeniero de Sistemas — Ingeniería de Datos y Plataformas",
+            client: "Cliente del Sector Minero (confidencial)",
             dateRange: "Ago 2025 – Presente",
+            description:
+              "Ingeniero de Datos y Plataformas responsable del mantenimiento, monitoreo y confiabilidad de aplicaciones en producción para un cliente global del sector minero. Mi trabajo incluye el soporte y depuración de pipelines de datos, la resolución de incidentes en producción, el despliegue de soluciones CI/CD y la integración de sistemas, todo dentro de un entorno corporativo con políticas de seguridad estrictas y herramientas aprobadas.",
+            highlights: [
+              "Mantenimiento, depuración y monitoreo de aplicaciones en producción, asegurando su disponibilidad y confiabilidad.",
+              "Soporte y orquestación de pipelines de datos con Airflow (desarrollo y mantenimiento de DAGs).",
+              "Resolución de incidentes en producción y troubleshooting en entornos cloud (AWS).",
+              "Despliegues CI/CD utilizando Azure Pipelines y contenedores Docker.",
+              "Integraciones de sistemas con Python (Flask / FastAPI).",
+              "Remediación de vulnerabilidades de seguridad en repositorios y servicios.",
+              "Trabajo con bases de datos SQL (Snowflake, SQL Server, MySQL) para consultas de soporte y análisis.",
+            ],
           },
         ],
         educationHeading: "Educación",
@@ -725,15 +733,6 @@
             school: "Universidad Andrés Bello",
             location: "Viña del Mar, Chile",
           },
-        ],
-        workHeading: "Áreas de trabajo",
-        workAreas: [
-          "Mantenimiento y depuración de aplicaciones en producción",
-          "Diseño y soporte de pipelines de datos (Airflow)",
-          "Despliegues CI/CD (Azure Pipelines)",
-          "Integraciones de sistemas con Python",
-          "Monitoreo, observabilidad y remediación de vulnerabilidades",
-          "Resolución de problemas en la nube de AWS",
         ],
         archHeading: "Arquitectura",
         archCaption: "Desplegado en AWS · CI/CD con Docker + Azure Pipelines",
@@ -763,9 +762,20 @@
         experienceHeading: "Berufserfahrung",
         experienceEntries: [
           {
-            role: "Data Engineer",
+            role: "Systemingenieur — Daten- und Plattformtechnik",
             client: "Kunde aus dem Bergbausektor (vertraulich)",
             dateRange: "Aug. 2025 – Heute",
+            description:
+              "Data- und Platform Engineer, verantwortlich für Wartung, Monitoring und Zuverlässigkeit von Produktionsanwendungen für einen globalen Kunden aus dem Bergbausektor. Meine Arbeit umfasst die Unterstützung und Fehlerbehebung von Datenpipelines, die Lösung von Produktionsvorfällen, die Bereitstellung von CI/CD-Lösungen und die Systemintegration, alles innerhalb einer Unternehmensumgebung mit strengen Sicherheitsrichtlinien und freigegebenen Tools.",
+            highlights: [
+              "Wartung, Fehlerbehebung und Monitoring von Produktionsanwendungen zur Sicherstellung von Verfügbarkeit und Zuverlässigkeit.",
+              "Unterstützung und Orchestrierung von Datenpipelines mit Airflow (Entwicklung und Wartung von DAGs).",
+              "Behebung von Produktionsvorfällen und Fehlersuche in Cloud-Umgebungen (AWS).",
+              "CI/CD-Deployments mit Azure Pipelines und Docker-Containern.",
+              "Systemintegrationen mit Python (Flask / FastAPI).",
+              "Behebung von Sicherheitslücken in Repositories und Diensten.",
+              "Arbeit mit SQL-Datenbanken (Snowflake, SQL Server, MySQL) für Support- und Analyseabfragen.",
+            ],
           },
         ],
         educationHeading: "Ausbildung",
@@ -775,15 +785,6 @@
             school: "Universidad Andrés Bello",
             location: "Viña del Mar, Chile",
           },
-        ],
-        workHeading: "Tätigkeitsbereiche",
-        workAreas: [
-          "Wartung und Fehlerbehebung von Produktionsanwendungen",
-          "Design und Support von Datenpipelines (Airflow)",
-          "CI/CD-Deployments (Azure Pipelines)",
-          "Systemintegrationen mit Python",
-          "Monitoring, Observability und Behebung von Schwachstellen",
-          "Fehlerbehebung in der AWS-Cloud",
         ],
         archHeading: "Architektur",
         archCaption: "Bereitgestellt auf AWS · CI/CD mit Docker + Azure Pipelines",
@@ -908,8 +909,9 @@
     }
 
     // Shared markup for one experience/education row: a logo (with a text
-    // badge fallback if the image file is missing) plus title/sub/date lines.
-    function timelineItemMarkup(logo, badge, title, sub, date) {
+    // badge fallback if the image file is missing) plus title/sub/date lines,
+    // and optional extra HTML (description paragraph, highlight bullets).
+    function timelineItemMarkup(logo, badge, title, sub, date, extraHtml = "") {
       return `
         <div class="timeline-item fade-in">
           <div class="timeline-logo">
@@ -920,6 +922,7 @@
             <div class="timeline-title">${title}</div>
             <div class="timeline-sub">${sub}</div>
             ${date ? `<div class="timeline-date">${date}</div>` : ""}
+            ${extraHtml}
           </div>
         </div>`;
     }
@@ -930,12 +933,20 @@
       document.getElementById("experienceList").innerHTML = CONFIG.experience
         .map((exp, i) => {
           const entry = t.experienceEntries[i];
+          const highlightsHtml = entry.highlights
+            .map((h) => `<li><span class="dot"></span>${h}</li>`)
+            .join("");
+          const extra = `
+            <p class="timeline-desc">${entry.description}</p>
+            <ul class="timeline-highlights">${highlightsHtml}</ul>
+          `;
           return timelineItemMarkup(
             exp.logo,
             exp.badge,
-            `${entry.role} · ${exp.company}`,
-            entry.client,
-            entry.dateRange
+            entry.role,
+            `${exp.company} · ${entry.client}`,
+            entry.dateRange,
+            extra
           );
         })
         .join("");
@@ -954,14 +965,6 @@
             `${entry.school} · ${entry.location}`
           );
         })
-        .join("");
-    }
-
-    function renderWorkAreas() {
-      const t = TRANSLATIONS[currentLang];
-      document.getElementById("workHeading").textContent = t.workHeading;
-      document.getElementById("workList").innerHTML = t.workAreas
-        .map((item) => `<li><span class="dot"></span>${item}</li>`)
         .join("");
     }
 
@@ -993,7 +996,6 @@
       renderStack();
       renderExperience();
       renderEducation();
-      renderWorkAreas();
       renderArchitecture();
     }
 
