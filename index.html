@@ -118,8 +118,14 @@
       box-shadow: var(--shadow);
     }
     .lang-btn {
-      width: 34px;
-      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      min-width: 56px;
+      height: 28px;
+      padding: 0 8px;
       border: none;
       background: transparent;
       color: var(--text-muted);
@@ -132,6 +138,13 @@
     }
     .lang-btn:hover { color: var(--text); }
     .lang-btn.active { background: var(--accent-soft); color: var(--accent); }
+    .lang-btn svg {
+      width: 18px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    }
 
     /* ---------- Hero ---------- */
     .hero {
@@ -472,9 +485,18 @@
   <div class="controls">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">🌙</button>
     <div class="lang-toggle" id="langToggle">
-      <button class="lang-btn" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-      <button class="lang-btn" data-lang="de">DE</button>
+      <button class="lang-btn" data-lang="en" aria-label="English">
+        <svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><g fill="#B22234"><rect y="0" width="24" height="1.23"/><rect y="2.46" width="24" height="1.23"/><rect y="4.92" width="24" height="1.23"/><rect y="7.38" width="24" height="1.23"/><rect y="9.84" width="24" height="1.23"/><rect y="12.3" width="24" height="1.23"/><rect y="14.76" width="24" height="1.23"/></g><rect width="10" height="8.6" fill="#3C3B6E"/></svg>
+        <span>EN</span>
+      </button>
+      <button class="lang-btn" data-lang="es" aria-label="Español">
+        <svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#AA151B"/><rect y="4" width="24" height="8" fill="#F1BF00"/></svg>
+        <span>ES</span>
+      </button>
+      <button class="lang-btn" data-lang="de" aria-label="Deutsch">
+        <svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#FFCE00"/><rect width="24" height="10.67" fill="#DD0000"/><rect width="24" height="5.33" fill="#000"/></svg>
+        <span>DE</span>
+      </button>
     </div>
   </div>
 
