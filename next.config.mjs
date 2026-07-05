@@ -5,7 +5,7 @@
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
-  basePath: isProd ? "/my-website" : "",
+  basePath: isProd ? "/cisco-website" : "",
   output: "export",
   images: {
     unoptimized: true,
