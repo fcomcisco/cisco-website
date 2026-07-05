@@ -615,13 +615,15 @@
         { name: "Snowflake", categoryKey: "databases", svg: "snowflake" },
         { name: "SQL Server", categoryKey: "databases", iconClass: "devicon-microsoftsqlserver-plain colored" },
         { name: "MySQL", categoryKey: "databases", iconClass: "devicon-mysql-plain colored" },
+        { name: "Firebase", categoryKey: "databases", img: "assets/logos/Firebase.png", badge: "FB" },
 
-        // Cloud (AWS)
+        // AWS
         { name: "MWAA", categoryKey: "cloud", svg: "mwaa" },
         { name: "ECS", categoryKey: "cloud", svg: "ecs" },
         { name: "ECR", categoryKey: "cloud", svg: "ecr" },
         { name: "CloudWatch", categoryKey: "cloud", svg: "cloudwatch" },
         { name: "RDS", categoryKey: "cloud", svg: "rds" },
+        { name: "S3", categoryKey: "cloud", svg: "s3" },
 
         // CI/CD & DevOps
         { name: "Azure DevOps", categoryKey: "cicd", iconClass: "devicon-azuredevops-plain colored" },
@@ -660,6 +662,7 @@
           {
             role: "System Engineer — Data & Platform Engineering",
             client: "Mining Sector Client (confidential)",
+            location: "Remote",
             dateRange: "Aug 2025 – Present",
             description:
               "Data and Platform Engineer responsible for the maintenance, monitoring, and reliability of production applications for a global mining sector client. My work involves supporting and debugging data pipelines, resolving production incidents, deploying CI/CD solutions, and integrating systems, all within a corporate environment with strict security policies and approved tools.",
@@ -695,7 +698,7 @@
           languages: "Languages",
           backend: "Backend / Frameworks",
           databases: "Databases",
-          cloud: "Cloud (AWS)",
+          cloud: "AWS",
           cicd: "CI/CD & DevOps",
           tools: "Tools",
         },
@@ -712,6 +715,7 @@
           {
             role: "Ingeniero de Sistemas — Ingeniería de Datos y Plataformas",
             client: "Cliente del Sector Minero (confidencial)",
+            location: "Remoto",
             dateRange: "Ago 2025 – Presente",
             description:
               "Ingeniero de Datos y Plataformas responsable del mantenimiento, monitoreo y confiabilidad de aplicaciones en producción para un cliente global del sector minero. Mi trabajo incluye el soporte y depuración de pipelines de datos, la resolución de incidentes en producción, el despliegue de soluciones CI/CD y la integración de sistemas, todo dentro de un entorno corporativo con políticas de seguridad estrictas y herramientas aprobadas.",
@@ -747,7 +751,7 @@
           languages: "Lenguajes",
           backend: "Backend / Frameworks",
           databases: "Bases de datos",
-          cloud: "Nube (AWS)",
+          cloud: "AWS",
           cicd: "CI/CD y DevOps",
           tools: "Herramientas",
         },
@@ -764,6 +768,7 @@
           {
             role: "Systemingenieur — Daten- und Plattformtechnik",
             client: "Kunde aus dem Bergbausektor (vertraulich)",
+            location: "Remote",
             dateRange: "Aug. 2025 – Heute",
             description:
               "Data- und Platform Engineer, verantwortlich für Wartung, Monitoring und Zuverlässigkeit von Produktionsanwendungen für einen globalen Kunden aus dem Bergbausektor. Meine Arbeit umfasst die Unterstützung und Fehlerbehebung von Datenpipelines, die Lösung von Produktionsvorfällen, die Bereitstellung von CI/CD-Lösungen und die Systemintegration, alles innerhalb einer Unternehmensumgebung mit strengen Sicherheitsrichtlinien und freigegebenen Tools.",
@@ -799,7 +804,7 @@
           languages: "Sprachen",
           backend: "Backend / Frameworks",
           databases: "Datenbanken",
-          cloud: "Cloud (AWS)",
+          cloud: "AWS",
           cicd: "CI/CD & DevOps",
           tools: "Werkzeuge",
         },
@@ -822,11 +827,14 @@
       // AWS service badges — styled like AWS's own Architecture Icons
       // (colored rounded square + white glyph), one distinct color/glyph per
       // service category since AWS doesn't offer hotlinkable icon files.
-      mwaa: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#8C4FFF"/><circle cx="9" cy="10" r="2" fill="#fff"/><circle cx="23" cy="10" r="2" fill="#fff"/><circle cx="16" cy="17" r="2" fill="#fff"/><circle cx="9" cy="24" r="2" fill="#fff"/><circle cx="23" cy="24" r="2" fill="#fff"/><g stroke="#fff" stroke-width="1.4"><path d="M9 10L16 17M23 10L16 17M16 17L9 24M16 17L23 24"/></g></svg>`,
-      ecs: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#ED7100"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="8" width="14" height="5"/><rect x="9" y="14.5" width="14" height="5"/><rect x="9" y="21" width="14" height="3.5"/></g></svg>`,
-      ecr: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#C2570A"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7v12"/><path d="M11 15l5 5 5-5"/><rect x="8" y="23" width="16" height="3"/></g></svg>`,
-      cloudwatch: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#E7157B"/><path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17c3-6 6-9 9-9s6 3 9 9c-3 6-6 9-9 9s-6-3-9-9z"/><circle cx="16" cy="17" r="2.6" fill="#fff"/></svg>`,
-      rds: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2E5FE8"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><ellipse cx="16" cy="10" rx="8" ry="3"/><path d="M8 10v12c0 1.7 3.6 3 8 3s8-1.3 8-3V10"/><path d="M8 16c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></svg>`,
+      // AWS badges use a cohesive blue/cyan/indigo family (instead of AWS's
+      // real clashing category colors) so they match the site's own palette.
+      mwaa: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#6366F1"/><circle cx="9" cy="10" r="2" fill="#fff"/><circle cx="23" cy="10" r="2" fill="#fff"/><circle cx="16" cy="17" r="2" fill="#fff"/><circle cx="9" cy="24" r="2" fill="#fff"/><circle cx="23" cy="24" r="2" fill="#fff"/><g stroke="#fff" stroke-width="1.4"><path d="M9 10L16 17M23 10L16 17M16 17L9 24M16 17L23 24"/></g></svg>`,
+      ecs: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2563EB"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="8" width="14" height="5"/><rect x="9" y="14.5" width="14" height="5"/><rect x="9" y="21" width="14" height="3.5"/></g></svg>`,
+      ecr: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0EA5E9"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7v12"/><path d="M11 15l5 5 5-5"/><rect x="8" y="23" width="16" height="3"/></g></svg>`,
+      cloudwatch: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#06B6D4"/><path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17c3-6 6-9 9-9s6 3 9 9c-3 6-6 9-9 9s-6-3-9-9z"/><circle cx="16" cy="17" r="2.6" fill="#fff"/></svg>`,
+      rds: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1E3A8A"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><ellipse cx="16" cy="10" rx="8" ry="3"/><path d="M8 10v12c0 1.7 3.6 3 8 3s8-1.3 8-3V10"/><path d="M8 16c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></svg>`,
+      s3: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0D9488"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8c0-1 2.7-2 6-2s6 1 6 2-2.7 2-6 2-6-1-6-2z"/><path d="M10 8v16c0 1 2.7 2 6 2s6-1 6-2V8"/><path d="M10 16c0 1 2.7 2 6 2s6-1 6-2"/></g></svg>`,
       snowflake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v20M4.2 6.5l15.6 11M4.2 17.5l15.6-11"/><path d="M12 5.5L9.8 3.8M12 5.5l2.2-1.7M12 18.5l-2.2 1.7M12 18.5l2.2 1.7M6.7 8.7L4.3 8.2M6.7 8.7l-1 2.3M17.3 8.7l2.4-.5M17.3 8.7l1 2.3M6.7 15.3l-1 2.3M6.7 15.3l-2.4-.5M17.3 15.3l1 2.3M17.3 15.3l2.4-.5"/></svg>`,
       source: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>`,
       airflow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>`,
@@ -944,7 +952,7 @@
             exp.logo,
             exp.badge,
             entry.role,
-            `${exp.company} · ${entry.client}`,
+            `${exp.company} · ${entry.client} · ${entry.location}`,
             entry.dateRange,
             extra
           );
