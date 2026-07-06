@@ -50,12 +50,12 @@ const CONFIG = {
     { name: "Firebase", categoryKey: "databases", img: "assets/logos/Firebase.png", badge: "FB" },
 
     // AWS
-    { name: "MWAA", categoryKey: "cloud", svg: "mwaa" },
-    { name: "ECS", categoryKey: "cloud", svg: "ecs" },
-    { name: "ECR", categoryKey: "cloud", svg: "ecr" },
-    { name: "CloudWatch", categoryKey: "cloud", svg: "cloudwatch" },
-    { name: "RDS", categoryKey: "cloud", svg: "rds" },
-    { name: "S3", categoryKey: "cloud", svg: "s3" },
+    { name: "MWAA", categoryKey: "cloud", img: "assets/logos/aws/mwaa.svg", badge: "MW" },
+    { name: "ECS", categoryKey: "cloud", img: "assets/logos/aws/ecs.svg", badge: "ECS" },
+    { name: "ECR", categoryKey: "cloud", img: "assets/logos/aws/ecr.svg", badge: "ECR" },
+    { name: "CloudWatch", categoryKey: "cloud", img: "assets/logos/aws/cloudwatch.svg", badge: "CW" },
+    { name: "RDS", categoryKey: "cloud", img: "assets/logos/aws/rds.svg", badge: "RDS" },
+    { name: "S3", categoryKey: "cloud", img: "assets/logos/aws/s3.svg", badge: "S3" },
 
     // CI/CD & DevOps
     { name: "Azure DevOps", categoryKey: "cicd", iconClass: "devicon-azuredevops-plain colored" },
@@ -250,21 +250,15 @@ if (!TRANSLATIONS[currentLang]) currentLang = "en";
 /* =====================================================================
    ICONS — small inline SVG set used for links, footer, diagram nodes,
    AWS service badges, and a generic fallback for tech logos not covered
-   by Devicon. AWS badges use AWS's own real category colors so they stay
-   familiar to anyone who knows the AWS console/icon set.
+   by Devicon. AWS service icons are the real official Architecture Icon
+   files (see assets/logos/aws/), referenced directly via the `img` field
+   on the relevant CONFIG.techStack entries instead of living here.
    ===================================================================== */
 const ICONS = {
   github: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1-.02-1.96-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .3.21.66.8.55A11.52 11.52 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>`,
   linkedin: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>`,
   email: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/></svg>`,
   genericDb: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>`,
-
-  mwaa: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#8C4FFF"/><circle cx="9" cy="10" r="2" fill="#fff"/><circle cx="23" cy="10" r="2" fill="#fff"/><circle cx="16" cy="17" r="2" fill="#fff"/><circle cx="9" cy="24" r="2" fill="#fff"/><circle cx="23" cy="24" r="2" fill="#fff"/><g stroke="#fff" stroke-width="1.4"><path d="M9 10L16 17M23 10L16 17M16 17L9 24M16 17L23 24"/></g></svg>`,
-  ecs: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#ED7100"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="8" width="14" height="5"/><rect x="9" y="14.5" width="14" height="5"/><rect x="9" y="21" width="14" height="3.5"/></g></svg>`,
-  ecr: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#C2570A"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7v12"/><path d="M11 15l5 5 5-5"/><rect x="8" y="23" width="16" height="3"/></g></svg>`,
-  cloudwatch: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#E7157B"/><path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17c3-6 6-9 9-9s6 3 9 9c-3 6-6 9-9 9s-6-3-9-9z"/><circle cx="16" cy="17" r="2.6" fill="#fff"/></svg>`,
-  rds: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2E5FE8"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><ellipse cx="16" cy="10" rx="8" ry="3"/><path d="M8 10v12c0 1.7 3.6 3 8 3s8-1.3 8-3V10"/><path d="M8 16c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></svg>`,
-  s3: `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#7AA116"/><g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8c0-1 2.7-2 6-2s6 1 6 2-2.7 2-6 2-6-1-6-2z"/><path d="M10 8v16c0 1 2.7 2 6 2s6-1 6-2V8"/><path d="M10 16c0 1 2.7 2 6 2s6-1 6-2"/></g></svg>`,
   snowflake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v20M4.2 6.5l15.6 11M4.2 17.5l15.6-11"/><path d="M12 5.5L9.8 3.8M12 5.5l2.2-1.7M12 18.5l-2.2 1.7M12 18.5l2.2 1.7M6.7 8.7L4.3 8.2M6.7 8.7l-1 2.3M17.3 8.7l2.4-.5M17.3 8.7l1 2.3M6.7 15.3l-1 2.3M6.7 15.3l-2.4-.5M17.3 15.3l1 2.3M17.3 15.3l2.4-.5"/></svg>`,
   source: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>`,
   airflow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>`,
