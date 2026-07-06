@@ -282,6 +282,25 @@ const ARCH_ICON_MAP = {
   frontend: "frontend",
 };
 
+// Small icons shown next to each tech-stack category label (inherit the
+// label's own color via currentColor). AWS uses the real logo file instead.
+const CATEGORY_ICONS = {
+  languages: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg>`,
+  backend: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="6" rx="1.5"/><rect x="2" y="14" width="20" height="6" rx="1.5"/><circle cx="6" cy="7" r="0.6" fill="currentColor"/><circle cx="6" cy="17" r="0.6" fill="currentColor"/></svg>`,
+  databases: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>`,
+  cicd: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg>`,
+  tools: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,
+};
+
+// Returns the markup for one category-label icon: an <img> for AWS (real
+// logo, fixed colors) or an inline SVG (currentColor) for everything else.
+function categoryIconMarkup(key) {
+  if (key === "cloud") {
+    return `<img src="assets/logos/AWS.png" alt="" class="cat-icon-img" />`;
+  }
+  return CATEGORY_ICONS[key] || "";
+}
+
 /* =====================================================================
    RENDER
    ===================================================================== */
@@ -339,7 +358,7 @@ function renderStack() {
         .join("");
       return `
         <div class="stack-category fade-in">
-          <div class="cat-label cat-label-${key}">${t.categories[key]}</div>
+          <div class="cat-label cat-label-${key}">${categoryIconMarkup(key)}<span>${t.categories[key]}</span></div>
           <div class="stack-grid">${itemsHtml}</div>
         </div>`;
     })
