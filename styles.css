@@ -254,15 +254,6 @@ a { color: inherit; }
   margin-bottom: 18px;
 }
 .cat-label svg { width: 16px; height: 16px; flex-shrink: 0; }
-.cat-label .cat-icon-img {
-  height: 13px;
-  width: auto;
-  object-fit: contain;
-  flex-shrink: 0;
-  background: #fff;
-  border-radius: 3px;
-  padding: 2px 4px;
-}
 .cat-label-languages { color: var(--cat-languages); }
 .cat-label-backend { color: var(--cat-backend); }
 .cat-label-databases { color: var(--cat-databases); }
