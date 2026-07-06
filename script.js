@@ -62,6 +62,7 @@ const CONFIG = {
     { name: "Docker", categoryKey: "cicd", iconClass: "devicon-docker-plain colored" },
     { name: "Git", categoryKey: "cicd", iconClass: "devicon-git-plain colored" },
     { name: "Bitbucket", categoryKey: "cicd", iconClass: "devicon-bitbucket-original colored" },
+    { name: "GitLab", categoryKey: "cicd", iconClass: "devicon-gitlab-plain colored" },
 
     // Tools
     { name: "Linux", categoryKey: "tools", iconClass: "devicon-linux-plain" },
