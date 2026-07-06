@@ -87,8 +87,12 @@ const TRANSLATIONS = {
   en: {
     eyebrow: "Portfolio",
     title: "Software Engineer",
+    location: "Berlin, Germany · Working Holiday Visa",
     linkedinLabel: "LinkedIn",
     emailLabel: "Email",
+    aboutHeading: "About",
+    aboutText:
+      "I grew up surrounded by technology, and it's fascinated me ever since. Today, I'm proud to help companies apply technology to their processes — improving turnaround times and reducing error rates along the way. As a fast learner, I'm excited by how quickly technology keeps evolving, and I'd love to talk about how we can work together to make your business better with the right tech behind it.",
     stackHeading: "Tech Stack",
     stackSub: "Tools I use to build and run data platforms",
     experienceHeading: "Experience",
@@ -156,8 +160,12 @@ const TRANSLATIONS = {
   es: {
     eyebrow: "Portafolio",
     title: "Ingeniero de Software",
+    location: "Berlín, Alemania · Visa Working Holiday",
     linkedinLabel: "LinkedIn",
     emailLabel: "Correo",
+    aboutHeading: "Sobre mí",
+    aboutText:
+      "Crecí rodeado de tecnología y desde siempre me ha fascinado. Hoy en día, me enorgullece ayudar a las empresas a aplicar tecnología en sus procesos, mejorando los tiempos de respuesta y reduciendo los errores en el camino. Como alguien que aprende rápido, me entusiasma ver lo rápido que evoluciona la tecnología, y me encantaría conversar sobre cómo podemos trabajar juntos para mejorar tu negocio con la tecnología adecuada de tu lado.",
     stackHeading: "Tecnologías",
     stackSub: "Herramientas que uso para construir y operar plataformas de datos",
     experienceHeading: "Experiencia",
@@ -225,8 +233,12 @@ const TRANSLATIONS = {
   de: {
     eyebrow: "Portfolio",
     title: "Softwareingenieur",
+    location: "Berlin, Deutschland · Working-Holiday-Visum",
     linkedinLabel: "LinkedIn",
     emailLabel: "E-Mail",
+    aboutHeading: "Über mich",
+    aboutText:
+      "Ich bin mit Technologie aufgewachsen und war schon immer davon fasziniert. Heute bin ich stolz darauf, Unternehmen dabei zu helfen, Technologie in ihren Prozessen einzusetzen — und dabei Durchlaufzeiten zu verkürzen und Fehlerquoten zu senken. Als schneller Lerner begeistert mich, wie schnell sich Technologie weiterentwickelt, und ich freue mich darauf zu besprechen, wie wir gemeinsam Ihr Unternehmen mit der richtigen Technologie voranbringen können.",
     stackHeading: "Tech-Stack",
     stackSub: "Werkzeuge, mit denen ich Datenplattformen baue und betreibe",
     experienceHeading: "Berufserfahrung",
@@ -351,6 +363,7 @@ function renderHero() {
   document.getElementById("heroEyebrow").textContent = t.eyebrow;
   document.getElementById("heroName").textContent = CONFIG.name;
   document.getElementById("heroTitle").textContent = t.title;
+  document.getElementById("heroLocation").textContent = t.location;
   document.getElementById("avatarImg").src = CONFIG.avatar;
 
   const linksHtml = `
@@ -491,8 +504,15 @@ function renderArchitecture() {
 }
 
 // Re-renders all translatable sections for the current language.
+function renderAbout() {
+  const t = TRANSLATIONS[currentLang];
+  document.getElementById("aboutHeading").textContent = t.aboutHeading;
+  document.getElementById("aboutText").textContent = t.aboutText;
+}
+
 function renderAll() {
   renderHero();
+  renderAbout();
   renderStack();
   renderExperience();
   renderEducation();
