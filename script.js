@@ -61,6 +61,7 @@ const CONFIG = {
     // CI/CD & DevOps
     { name: "Azure DevOps", categoryKey: "cicd", iconClass: "devicon-azuredevops-plain colored" },
     { name: "Docker", categoryKey: "cicd", iconClass: "devicon-docker-plain colored" },
+    { name: "Terraform", categoryKey: "cicd", iconClass: "devicon-terraform-plain colored" },
     { name: "Git", categoryKey: "cicd", iconClass: "devicon-git-plain colored" },
     { name: "Bitbucket", categoryKey: "cicd", iconClass: "devicon-bitbucket-original colored" },
     { name: "GitLab", categoryKey: "cicd", iconClass: "devicon-gitlab-plain colored" },
